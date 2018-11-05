@@ -31,14 +31,22 @@ const removeOptions = () => {
     renderApp();
 }
 
+const onMakeDecision = () => {
+    // get a random number between zero and a number of items
+    const randNumber = Math.floor(Math.random() * app.options.length);
+    // get the specific option
+    const option = app.options[randNumber];
+    alert(option);
+}
+
 const renderApp = () => {
     const template = (
         <div>
             <h1>{app.title}</h1>
             {app.subtitle && <p>{app.subtitle + "!"}</p>}
-            <p>{app.options.length > 0 ? "Here are your options:" : "No options"}</p>
-            <p>{app.options.length}</p>
+            <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should I do?</button>
             <button onClick={removeOptions}>Remove All</button>
+            <p>{app.options.length > 0 ? "Here are your options:" : "No options"}</p>
             <ol> {/* loop through the options array and turn it into array of li elements*/}
             {   app.options.map((option) => {
                     return <li key={option}>{option}</li>;
