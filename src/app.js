@@ -5,7 +5,7 @@ class IndecisionApp extends React.Component {
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
         this.state = {
-            options: []
+            options: props.options
         };
     }
 
@@ -49,7 +49,7 @@ class IndecisionApp extends React.Component {
         const subtitle = "Put your life in the hands of a computer";
         return (
             <div>
-                <Header title="Indecision App" subtitle={subtitle}/>
+                <Header subtitle={subtitle}/>
                 <Action handlePick={this.handlePick} hasOptions={this.state.options.length > 0}/>
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}/>
                 <AddOption handleAddOption={this.handleAddOption}/>
@@ -57,14 +57,23 @@ class IndecisionApp extends React.Component {
         );
     }
 }
+// set default options array - to empty
+IndecisionApp.defaultProps = {
+    options: []
+};
 
 const Header = (props) => {
     return (
         <div>
             <h1>{props.title}</h1>
-            <p>{props.subtitle}</p>
+            {/* display the paragraph only if there is subtitle passed */}
+            {props.subtitle && <h2>{props.subtitle}</h2>}
         </div>
     );
+};
+// set default props for the title if it hasnt been passed in
+Header.defaultProps = {
+    title: "Indecision App"
 };
 
 const Action = (props) => {
@@ -140,4 +149,4 @@ class AddOption extends React.Component {
 }
 
 
-ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp options={["do shopping"]}/>, document.getElementById('app'));

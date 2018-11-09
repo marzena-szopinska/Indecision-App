@@ -20,7 +20,7 @@ var IndecisionApp = function (_React$Component) {
         _this.handlePick = _this.handlePick.bind(_this);
         _this.handleAddOption = _this.handleAddOption.bind(_this);
         _this.state = {
-            options: []
+            options: props.options
         };
         return _this;
     }
@@ -71,7 +71,7 @@ var IndecisionApp = function (_React$Component) {
             return React.createElement(
                 "div",
                 null,
-                React.createElement(Header, { title: "Indecision App", subtitle: subtitle }),
+                React.createElement(Header, { subtitle: subtitle }),
                 React.createElement(Action, { handlePick: this.handlePick, hasOptions: this.state.options.length > 0 }),
                 React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
                 React.createElement(AddOption, { handleAddOption: this.handleAddOption })
@@ -81,6 +81,12 @@ var IndecisionApp = function (_React$Component) {
 
     return IndecisionApp;
 }(React.Component);
+// set default options array - to empty
+
+
+IndecisionApp.defaultProps = {
+    options: []
+};
 
 var Header = function Header(props) {
     return React.createElement(
@@ -91,12 +97,16 @@ var Header = function Header(props) {
             null,
             props.title
         ),
-        React.createElement(
-            "p",
+        props.subtitle && React.createElement(
+            "h2",
             null,
             props.subtitle
         )
     );
+};
+// set default props for the title if it hasnt been passed in
+Header.defaultProps = {
+    title: "Indecision App"
 };
 
 var Action = function Action(props) {
@@ -202,4 +212,4 @@ var AddOption = function (_React$Component2) {
     return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+ReactDOM.render(React.createElement(IndecisionApp, { options: ["do shopping"] }), document.getElementById('app'));
