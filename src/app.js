@@ -1,21 +1,23 @@
 class IndecisionApp extends React.Component {
     constructor(props){
         super(props);
+        // bind methods
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.state = {
             options: props.options
         };
     }
 
     handleDeleteOptions(){
-        this.setState(() => {
-            return {
-                // clear the whole options array
-                options: []
-            };
-        });
+        // set options array to an empty array
+        this.setState(() => ({ options: [] }));
+    };
+
+    handleDeleteOption(option) {
+
     };
 
     handlePick() {
@@ -35,13 +37,10 @@ class IndecisionApp extends React.Component {
         } // if option that has been typed in already exists in the options array, show this message
         else if(this.state.options.indexOf(option) > -1){
             return "This option already exist";
-        } // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
+        } 
         else {
-            this.setState((prevState) => {
-                return {
-                    options: prevState.options.concat(option)
-                };
-            });
+            // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
+            this.setState((prevState) => ({ options: prevState.options.concat(option)}));
         }
     };
 
@@ -123,13 +122,8 @@ class AddOption extends React.Component {
         const option = e.target.elements.option.value.trim();
         // get the value that is comming from the parent
         const error = this.props.handleAddOption(option);
-
-        this.setState(() => {
-            return {
-                // set the sate to the variable that holds the value from the parent component
-                error // same as error: error
-            };
-        });
+         // set the sate to the variable that holds the value from the parent component
+        this.setState(() =>({ error }));// same as error: error
         // clear the input after adding an option
         e.target.elements.option.value = '';
     }

@@ -14,11 +14,13 @@ var IndecisionApp = function (_React$Component) {
     function IndecisionApp(props) {
         _classCallCheck(this, IndecisionApp);
 
+        // bind methods
         var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
 
         _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
         _this.handlePick = _this.handlePick.bind(_this);
         _this.handleAddOption = _this.handleAddOption.bind(_this);
+        _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
         _this.state = {
             options: props.options
         };
@@ -28,13 +30,14 @@ var IndecisionApp = function (_React$Component) {
     _createClass(IndecisionApp, [{
         key: "handleDeleteOptions",
         value: function handleDeleteOptions() {
+            // set options array to an empty array
             this.setState(function () {
-                return {
-                    // clear the whole options array
-                    options: []
-                };
+                return { options: [] };
             });
         }
+    }, {
+        key: "handleDeleteOption",
+        value: function handleDeleteOption(option) {}
     }, {
         key: "handlePick",
         value: function handlePick() {
@@ -55,14 +58,12 @@ var IndecisionApp = function (_React$Component) {
             } // if option that has been typed in already exists in the options array, show this message
             else if (this.state.options.indexOf(option) > -1) {
                     return "This option already exist";
-                } // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
-                else {
-                        this.setState(function (prevState) {
-                            return {
-                                options: prevState.options.concat(option)
-                            };
-                        });
-                    }
+                } else {
+                    // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
+                    this.setState(function (prevState) {
+                        return { options: prevState.options.concat(option) };
+                    });
+                }
         }
     }, {
         key: "render",
@@ -174,13 +175,10 @@ var AddOption = function (_React$Component2) {
             var option = e.target.elements.option.value.trim();
             // get the value that is comming from the parent
             var error = this.props.handleAddOption(option);
-
+            // set the sate to the variable that holds the value from the parent component
             this.setState(function () {
-                return {
-                    // set the sate to the variable that holds the value from the parent component
-                    error: error // same as error: error
-                };
-            });
+                return { error: error };
+            }); // same as error: error
             // clear the input after adding an option
             e.target.elements.option.value = '';
         }
