@@ -58,52 +58,43 @@ class IndecisionApp extends React.Component {
     }
 }
 
-class Header extends React.Component {
-    render(){
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <p>{this.props.subtitle}</p>
-            </div>
-        );
-    }
-}
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            <p>{props.subtitle}</p>
+        </div>
+    );
+};
+
+const Action = (props) => {
+    return (
+        <div>
+            {/* if there is no options then disable the button */}
+            <button disabled={!props.hasOptions} onClick={props.handlePick}>What should I do?</button>
+        </div>
+    );
+};
+
+const Options = (props) => {
+    return (
+        <div>
+            <button onClick={props.handleDeleteOptions}>Remove All</button>
+            {
+                props.options.map((option) => <Option key={option} optionText={option}/>)
+            }
+        </div>
+    );
+};
 
 
-class Action extends React.Component {
-    render(){
-        return(
-            <div>
-                {/* if there is no options then disable the button */}
-                <button disabled={!this.props.hasOptions} onClick={this.props.handlePick}>What should I do?</button>
-            </div>
-        );
-    }
-}
-
-class Option extends React.Component {
-    render() {
-        return (
-            <div>
-                <p>{this.props.optionText}</p>
-            </div>
-        );
-    }
-}
-
-
-class Options extends React.Component {
-    render() {
-        return (
-            <div>
-                <button onClick={this.props.handleDeleteOptions}>Remove All</button>
-                {
-                    this.props.options.map((option) => <Option key={option} optionText={option}/>)
-                }
-            </div>
-        );
-    }
-}
+const Option = (props) => {
+    return (
+        <div>
+            <p>{props.optionText}</p>
+        </div>
+    );
+};
 
 class AddOption extends React.Component {
     constructor(props){
