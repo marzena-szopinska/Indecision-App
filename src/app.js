@@ -16,8 +16,15 @@ class IndecisionApp extends React.Component {
         this.setState(() => ({ options: [] }));
     };
 
-    handleDeleteOption(option) {
-
+    handleDeleteOption(optionToRemove) {
+        this.setState((prevState) => {
+            return {
+                //filter out the optionToRemove from the options array and return the new array that doesnt contain optionToRemove
+                options: prevState.options.filter((option) => {
+                    return optionToRemove !== option;
+                })
+            };
+        });
     };
 
     handlePick() {
@@ -50,7 +57,7 @@ class IndecisionApp extends React.Component {
             <div>
                 <Header subtitle={subtitle}/>
                 <Action handlePick={this.handlePick} hasOptions={this.state.options.length > 0}/>
-                <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions}/>
+                <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} handleDeleteOption={this.handleDeleteOption}/>
                 <AddOption handleAddOption={this.handleAddOption}/>
             </div>
         );
@@ -89,7 +96,7 @@ const Options = (props) => {
         <div>
             <button onClick={props.handleDeleteOptions}>Remove All</button>
             {
-                props.options.map((option) => <Option key={option} optionText={option}/>)
+                props.options.map((option) => <Option key={option} optionText={option} handleDeleteOption={props.handleDeleteOption}/>)
             }
         </div>
     );
@@ -97,9 +104,17 @@ const Options = (props) => {
 
 
 const Option = (props) => {
+    // temporary styling
+    let style = {
+        display: "inline",
+        color: "green"
+    }
+
     return (
         <div>
-            <p>{props.optionText}</p>
+            <p className="option" style={style}>{props.optionText}</p>
+            {/* call a function to get the optionText value instead of the whole object */}
+            <button onClick={(e) => {props.handleDeleteOption(props.optionText)}}>Remove</button>
         </div>
     );
 };

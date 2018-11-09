@@ -37,7 +37,16 @@ var IndecisionApp = function (_React$Component) {
         }
     }, {
         key: "handleDeleteOption",
-        value: function handleDeleteOption(option) {}
+        value: function handleDeleteOption(optionToRemove) {
+            this.setState(function (prevState) {
+                return {
+                    //filter out the optionToRemove from the options array and return the new array that doesnt contain optionToRemove
+                    options: prevState.options.filter(function (option) {
+                        return optionToRemove !== option;
+                    })
+                };
+            });
+        }
     }, {
         key: "handlePick",
         value: function handlePick() {
@@ -74,7 +83,7 @@ var IndecisionApp = function (_React$Component) {
                 null,
                 React.createElement(Header, { subtitle: subtitle }),
                 React.createElement(Action, { handlePick: this.handlePick, hasOptions: this.state.options.length > 0 }),
-                React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
+                React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions, handleDeleteOption: this.handleDeleteOption }),
                 React.createElement(AddOption, { handleAddOption: this.handleAddOption })
             );
         }
@@ -132,19 +141,32 @@ var Options = function Options(props) {
             "Remove All"
         ),
         props.options.map(function (option) {
-            return React.createElement(Option, { key: option, optionText: option });
+            return React.createElement(Option, { key: option, optionText: option, handleDeleteOption: props.handleDeleteOption });
         })
     );
 };
 
 var Option = function Option(props) {
+    // temporary styling
+    var style = {
+        display: "inline",
+        color: "green"
+    };
+
     return React.createElement(
         "div",
         null,
         React.createElement(
             "p",
-            null,
+            { className: "option", style: style },
             props.optionText
+        ),
+        React.createElement(
+            "button",
+            { onClick: function onClick(e) {
+                    props.handleDeleteOption(props.optionText);
+                } },
+            "Remove"
         )
     );
 };
