@@ -142,18 +142,21 @@ var IndecisionApp = function (_React$Component) {
     }, {
         key: "handleAddOption",
         value: function handleAddOption(option) {
-
+            // validation check
+            // if there is no option, show this message
             if (!option) {
                 return "Enter valid value to add item";
-            } else if (this.state.options.indexOf(option) > -1) {
-                return "This option already exist";
-            } else {
-                this.setState(function (prevState) {
-                    return {
-                        options: prevState.options.concat(option)
-                    };
-                });
-            }
+            } // if option that has been typed in already exists in the options array, show this message
+            else if (this.state.options.indexOf(option) > -1) {
+                    return "This option already exist";
+                } // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
+                else {
+                        this.setState(function (prevState) {
+                            return {
+                                options: prevState.options.concat(option)
+                            };
+                        });
+                    }
         }
     }, {
         key: "render",
@@ -295,9 +298,11 @@ var AddOption = function (_React$Component6) {
     function AddOption(props) {
         _classCallCheck(this, AddOption);
 
+        // bind the method
         var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
 
         _this6.handleAddOption = _this6.handleAddOption.bind(_this6);
+        // set default value for the error
         _this6.state = {
             error: undefined
         };
@@ -309,15 +314,19 @@ var AddOption = function (_React$Component6) {
         value: function handleAddOption(e) {
             // prevent default page refresh
             e.preventDefault();
-
+            // remove unnecessary whitespaces
             var option = e.target.elements.option.value.trim();
+            // get the value that is comming from the parent
             var error = this.props.handleAddOption(option);
 
             this.setState(function () {
                 return {
+                    // set the sate to the variable that holds the value from the parent component
                     error: error // same as error: error
                 };
             });
+            // clear the input after adding an option
+            e.target.elements.option.value = '';
         }
     }, {
         key: "render",
