@@ -22,11 +22,11 @@ var IndecisionApp = function (_React$Component) {
         _this.handleAddOption = _this.handleAddOption.bind(_this);
         _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
         _this.state = {
-            options: props.options
+            options: []
         };
         return _this;
     }
-    // fires immediately after the component is mounted (inserted into the tree)
+    // fires immediately after the component is mounted (inserted into the tree), on page refresh and first page load
 
 
     _createClass(IndecisionApp, [{
@@ -34,10 +34,15 @@ var IndecisionApp = function (_React$Component) {
         value: function componentDidMount() {
             // check for json validation
             try {
+                // gets key's values that has been stored
                 var json = localStorage.getItem('options');
+                // temporary test
+                console.log('json in componentDidMount: ' + json);
+                // change the string representation into a true js object
                 var options = JSON.parse(json);
 
                 if (options) {
+                    // update the state
                     this.setState(function () {
                         return { options: options };
                     });
@@ -53,7 +58,11 @@ var IndecisionApp = function (_React$Component) {
         value: function componentDidUpdate(prevProps, prevState) {
             // if the previous state has different length than current one, save the data
             if (prevState.options.length !== this.state.options.length) {
+                // convert the true javascript into a string
                 var json = JSON.stringify(this.state.options);
+                // temporary test
+                console.log('json in componentDidUpdate: ' + json);
+                //adds the key to the storage
                 localStorage.setItem('options', json);
             }
         }
@@ -121,12 +130,6 @@ var IndecisionApp = function (_React$Component) {
 
     return IndecisionApp;
 }(React.Component);
-// set default options array - to empty
-
-
-IndecisionApp.defaultProps = {
-    options: []
-};
 
 var Header = function Header(props) {
     return React.createElement(
@@ -269,4 +272,4 @@ var AddOption = function (_React$Component2) {
     return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, { options: ["do shopping"] }), document.getElementById('app'));
+ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));

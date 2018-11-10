@@ -7,17 +7,22 @@ class IndecisionApp extends React.Component {
         this.handleAddOption = this.handleAddOption.bind(this);
         this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.state = {
-            options: props.options
+            options: []
         };
     }
-    // fires immediately after the component is mounted (inserted into the tree)
+    // fires immediately after the component is mounted (inserted into the tree), on page refresh and first page load
     componentDidMount() {
         // check for json validation
         try {
+            // gets key's values that has been stored
             const json = localStorage.getItem('options');
+            // temporary test
+            console.log(`json in componentDidMount: ${json}`);
+            // change the string representation into a true js object
             const options = JSON.parse(json);
 
             if(options) {
+                // update the state
                 this.setState(() => ({ options: options }));
             }
 
@@ -29,7 +34,11 @@ class IndecisionApp extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         // if the previous state has different length than current one, save the data
         if(prevState.options.length !== this.state.options.length){
+            // convert the true javascript into a string
             const json = JSON.stringify(this.state.options);
+             // temporary test
+            console.log(`json in componentDidUpdate: ${json}`);
+            //adds the key to the storage
             localStorage.setItem('options', json);
         }
     }
@@ -86,10 +95,6 @@ class IndecisionApp extends React.Component {
         );
     }
 }
-// set default options array - to empty
-IndecisionApp.defaultProps = {
-    options: []
-};
 
 const Header = (props) => {
     return (
@@ -185,4 +190,4 @@ class AddOption extends React.Component {
 }
 
 
-ReactDOM.render(<IndecisionApp options={["do shopping"]}/>, document.getElementById('app'));
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
