@@ -95,6 +95,7 @@ const Options = (props) => {
     return (
         <div>
             <button onClick={props.handleDeleteOptions}>Remove All</button>
+            {props.options.length ===0 && <p>Please add an option to get started!</p>}
             {
                 props.options.map((option) => <Option key={option} optionText={option} handleDeleteOption={props.handleDeleteOption}/>)
             }
@@ -139,8 +140,11 @@ class AddOption extends React.Component {
         const error = this.props.handleAddOption(option);
          // set the sate to the variable that holds the value from the parent component
         this.setState(() =>({ error }));// same as error: error
-        // clear the input after adding an option
-        e.target.elements.option.value = '';
+        // clear the input after adding an option, if there was no error
+        if(!error){
+            e.target.elements.option.value = '';
+        }
+        
     }
 
     render(){

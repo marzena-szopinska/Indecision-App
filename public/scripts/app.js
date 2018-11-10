@@ -140,6 +140,11 @@ var Options = function Options(props) {
             { onClick: props.handleDeleteOptions },
             "Remove All"
         ),
+        props.options.length === 0 && React.createElement(
+            "p",
+            null,
+            "Please add an option to get started!"
+        ),
         props.options.map(function (option) {
             return React.createElement(Option, { key: option, optionText: option, handleDeleteOption: props.handleDeleteOption });
         })
@@ -201,8 +206,10 @@ var AddOption = function (_React$Component2) {
             this.setState(function () {
                 return { error: error };
             }); // same as error: error
-            // clear the input after adding an option
-            e.target.elements.option.value = '';
+            // clear the input after adding an option, if there was no error
+            if (!error) {
+                e.target.elements.option.value = '';
+            }
         }
     }, {
         key: "render",
