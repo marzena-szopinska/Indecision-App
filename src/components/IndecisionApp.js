@@ -1,3 +1,9 @@
+import React from 'react';
+import AddOption from './AddOption';
+import Header from './Header';
+import Action from './Action';
+import Options from './Options';
+
 class IndecisionApp extends React.Component {
     constructor(props){
         super(props);
@@ -96,98 +102,4 @@ class IndecisionApp extends React.Component {
     }
 }
 
-const Header = (props) => {
-    return (
-        <div>
-            <h1>{props.title}</h1>
-            {/* display the paragraph only if there is subtitle passed */}
-            {props.subtitle && <h2>{props.subtitle}</h2>}
-        </div>
-    );
-};
-// set default props for the title if it hasnt been passed in
-Header.defaultProps = {
-    title: "Indecision App"
-};
-
-const Action = (props) => {
-    return (
-        <div>
-            {/* if there is no options then disable the button */}
-            <button disabled={!props.hasOptions} onClick={props.handlePick}>What should I do?</button>
-        </div>
-    );
-};
-
-const Options = (props) => {
-    return (
-        <div>
-            <button onClick={props.handleDeleteOptions}>Remove All</button>
-            {props.options.length ===0 && <p>Please add an option to get started!</p>}
-            {
-                props.options.map((option) => <Option key={option} optionText={option} handleDeleteOption={props.handleDeleteOption}/>)
-            }
-        </div>
-    );
-};
-
-
-const Option = (props) => {
-    // temporary styling
-    let style = {
-        display: "inline",
-        color: "green"
-    }
-
-    return (
-        <div>
-            <p className="option" style={style}>{props.optionText}</p>
-            {/* call a function to get the optionText value instead of the whole object */}
-            <button onClick={(e) => {props.handleDeleteOption(props.optionText)}}>Remove</button>
-        </div>
-    );
-};
-
-class AddOption extends React.Component {
-    constructor(props){
-        super(props);
-        // bind the method
-        this.handleAddOption = this.handleAddOption.bind(this);
-        // set default value for the error
-        this.state = {
-            error: undefined
-        }
-    }
-
-    handleAddOption(e) {
-        // prevent default page refresh
-        e.preventDefault();
-        // remove unnecessary whitespaces
-        const option = e.target.elements.option.value.trim();
-        // get the value that is comming from the parent
-        const error = this.props.handleAddOption(option);
-         // set the sate to the variable that holds the value from the parent component
-        this.setState(() =>({ error }));// same as error: error
-        // clear the input after adding an option, if there was no error
-        if(!error){
-            e.target.elements.option.value = '';
-        }
-        
-    }
-
-    render(){
-        return (
-            <div>
-                <form onSubmit={this.handleAddOption}>
-                {/* show the message if there is an error message */}
-                    {this.state.error && <p>{this.state.error}</p>}
-                    <input type="text" name="option" />
-                    <button>Add Option</button>
-                </form>
-            </div>
-        );
-    }
-}
-
-
-ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
+export default IndecisionApp;
