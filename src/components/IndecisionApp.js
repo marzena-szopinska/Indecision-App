@@ -5,17 +5,51 @@ import Action from './Action';
 import Options from './Options';
 
 class IndecisionApp extends React.Component {
-    constructor(props){
-        super(props);
-        // bind methods
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-        this.state = {
-            options: []
-        };
-    }
+    
+    state = {
+        options: []
+    };
+
+    handleDeleteOptions = () => {
+        // set options array to an empty array
+        this.setState(() => ({ options: [] }));
+    };
+
+    handleDeleteOption = (optionToRemove) => {
+        this.setState((prevState) => {
+            return {
+                //filter out the optionToRemove from the options array and return the new array that doesnt contain optionToRemove
+                options: prevState.options.filter((option) => {
+                    return optionToRemove !== option;
+                })
+            };
+        });
+    };
+
+    handlePick = () => {
+        // get the random number between zero and the number of options together
+        const randNumber = Math.floor(Math.random() * this.state.options.length);
+        // get an option that has a number index generated above
+        const option = this.state.options[randNumber];
+        // display picked option
+        alert(option);
+    };
+
+    handleAddOption = (option) => {
+        // validation check
+        // if there is no option, show this message
+        if(!option){
+            return "Enter valid value to add item";
+        } // if option that has been typed in already exists in the options array, show this message
+        else if(this.state.options.indexOf(option) > -1){
+            return "This option already exist";
+        } 
+        else {
+            // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
+            this.setState((prevState) => ({ options: prevState.options.concat(option)}));
+        }
+    };
+
     // fires immediately after the component is mounted (inserted into the tree), on page refresh and first page load
     componentDidMount() {
         // check for json validation
@@ -42,52 +76,12 @@ class IndecisionApp extends React.Component {
         if(prevState.options.length !== this.state.options.length){
             // convert the true javascript into a string
             const json = JSON.stringify(this.state.options);
-             // temporary test
+                // temporary test
             console.log(`json in componentDidUpdate: ${json}`);
             //adds the key to the storage
             localStorage.setItem('options', json);
         }
     }
-
-    handleDeleteOptions(){
-        // set options array to an empty array
-        this.setState(() => ({ options: [] }));
-    };
-
-    handleDeleteOption(optionToRemove) {
-        this.setState((prevState) => {
-            return {
-                //filter out the optionToRemove from the options array and return the new array that doesnt contain optionToRemove
-                options: prevState.options.filter((option) => {
-                    return optionToRemove !== option;
-                })
-            };
-        });
-    };
-
-    handlePick() {
-        // get the random number between zero and the number of options together
-        const randNumber = Math.floor(Math.random() * this.state.options.length);
-        // get an option that has a number index generated above
-        const option = this.state.options[randNumber];
-        // display picked option
-        alert(option);
-    };
-
-    handleAddOption(option) {
-        // validation check
-        // if there is no option, show this message
-        if(!option){
-            return "Enter valid value to add item";
-        } // if option that has been typed in already exists in the options array, show this message
-        else if(this.state.options.indexOf(option) > -1){
-            return "This option already exist";
-        } 
-        else {
-            // otherwise add the option to the options array without direct manipulation of the state object (used concat() instead of push())
-            this.setState((prevState) => ({ options: prevState.options.concat(option)}));
-        }
-    };
 
     render() {
         return (

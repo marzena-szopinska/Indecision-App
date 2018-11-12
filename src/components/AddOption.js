@@ -6,7 +6,7 @@ export default class AddOption extends React.Component {
         error: undefined
     };
 
-    handleAddOption(e) {
+    handleAddOption = (e) => {
         // prevent default page refresh
         e.preventDefault();
         // remove unnecessary whitespaces
