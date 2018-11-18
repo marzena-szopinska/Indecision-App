@@ -54,6 +54,12 @@ class IndecisionApp extends React.Component {
         }
     };
 
+    handleClearSelectedOption = () => {
+        this.setState(() => ({
+            selectedOption: undefined
+        }));
+    };
+
     // fires immediately after the component is mounted (inserted into the tree), on page refresh and first page load
     componentDidMount() {
         // check for json validation
@@ -95,7 +101,7 @@ class IndecisionApp extends React.Component {
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} 
                 handleDeleteOption={this.handleDeleteOption}/>
                 <AddOption handleAddOption={this.handleAddOption}/>
-                <OptionModal selectedOption={this.state.selectedOption}/>
+                <OptionModal selectedOption={this.state.selectedOption} handleClearSelectedOption={this.handleClearSelectedOption}/>
             </div>
         );
     }
