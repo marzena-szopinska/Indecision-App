@@ -8,7 +8,8 @@ import OptionModal from './OptionModal';
 class IndecisionApp extends React.Component {
     
     state = {
-        options: []
+        options: [],
+        selectedOption: undefined
     };
 
     handleDeleteOptions = () => {
@@ -32,8 +33,10 @@ class IndecisionApp extends React.Component {
         const randNumber = Math.floor(Math.random() * this.state.options.length);
         // get an option that has a number index generated above
         const option = this.state.options[randNumber];
-        // display picked option
-        alert(option);
+        // display modal window with picked option
+        this.setState(() => ({
+            selectedOption: option
+        }));
     };
 
     handleAddOption = (option) => {
@@ -92,7 +95,7 @@ class IndecisionApp extends React.Component {
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} 
                 handleDeleteOption={this.handleDeleteOption}/>
                 <AddOption handleAddOption={this.handleAddOption}/>
-                <OptionModal />
+                <OptionModal selectedOption={this.state.selectedOption}/>
             </div>
         );
     }
